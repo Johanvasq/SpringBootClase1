@@ -54,8 +54,9 @@ public class TeacherServiceImpl implements ITeacherService {
 
     @Override
     public void delete(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        Optional<Teacher> teacher = repository.findById(id);
+        if (teacher.isPresent()) {
+            repository.delete(teacher.get());
         }
     }
 }
