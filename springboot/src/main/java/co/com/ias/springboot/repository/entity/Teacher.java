@@ -2,6 +2,9 @@ package co.com.ias.springboot.repository.entity;
 
 import co.com.ias.springboot.dto.CourseDTO;
 import co.com.ias.springboot.dto.TeacherDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Entity
 //@Table(name = "TEACHER")
 public class Teacher implements Serializable {
@@ -18,7 +24,8 @@ public class Teacher implements Serializable {
     @Column(name = "LAST_NAME", nullable = false) private String lastName;
     @Column(name = "AGE") private Integer age;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
 
     public Teacher() {

@@ -33,15 +33,13 @@ public class TeacherController {
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody TeacherDTO teacherDTO){
         service.save(teacherDTO);
-        return ResponseEntity
-               .ok()
-               .build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping()
     public ResponseEntity<?> update(@RequestBody TeacherDTO teacherDTO){
         service.update(teacherDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

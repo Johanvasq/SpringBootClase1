@@ -3,14 +3,18 @@ package co.com.ias.springboot.dto;
 import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.repository.entity.Student;
 import co.com.ias.springboot.repository.entity.Teacher;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CourseDTO {
+public class CourseDTO{
 
     private Integer id;
+
     private List<StudentDTO> students;
+
     private TeacherDTO teacher;
     private String schedule;
     private String issue;
@@ -29,10 +33,14 @@ public class CourseDTO {
 
     public CourseDTO(Course course) {
         this.id = course.getId();
-        this.students = course.getStudents()
-                .stream()
-                .map(StudentDTO::new)
-                .collect(Collectors.toList());
+        if(course.getStudents() != null) {
+            this.students = course.getStudents()
+                    .stream()
+                    .map(StudentDTO::new)
+                    .collect(Collectors.toList());
+        }else {
+            this.students = null;
+        }
         this.teacher = new TeacherDTO(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
@@ -77,4 +85,20 @@ public class CourseDTO {
     public String getIssue() {
         return issue;
     }
+
+
+    // Convertir a curso
+
+    public CourseDTO toDTO(Course course) {
+
+    }
+
+
+    public Object toEntity(Object object) {
+        return null;
+    }
+
+
+
+
 }

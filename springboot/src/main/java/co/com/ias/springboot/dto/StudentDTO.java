@@ -2,6 +2,7 @@ package co.com.ias.springboot.dto;
 
 import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.repository.entity.Student;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.LocalDate;
 
@@ -12,6 +13,7 @@ public class StudentDTO {
     private String lastName;
     private LocalDate birthDate;
     private Integer age;
+
     private CourseDTO course;
 
     public StudentDTO() {
@@ -33,7 +35,11 @@ public class StudentDTO {
         this.lastName = student.getLastName();
         this.birthDate = student.getBirthDate();
         this.age = student.getAge();
-        this.course = new CourseDTO(student.getCourse());
+        if (student.getCourse() != null){
+            this.course = new CourseDTO(student.getCourse());
+        }else {
+            this.course = null;
+        }
     }
 
 

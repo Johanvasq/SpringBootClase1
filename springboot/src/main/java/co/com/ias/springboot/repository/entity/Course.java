@@ -1,12 +1,19 @@
 package co.com.ias.springboot.repository.entity;
 
 import co.com.ias.springboot.dto.CourseDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Entity
 //@Table(name = "course")
 public class Course implements Serializable {
@@ -14,9 +21,13 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
+
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "TEACHER_IDENTIFICATION", nullable = false)
     private Teacher teacher;
     @Column(name = "SCHEDULE", nullable = false) private String schedule;
@@ -40,10 +51,14 @@ public class Course implements Serializable {
     }
 
     public Course(CourseDTO course) {
-        this.students = course.getStudents()
-                .stream()
-                .map(Student::new)
-                .collect(Collectors.toList());
+        if(course.getStudents() != null){
+            this.students = course.getStudents()
+                    .stream()
+                    .map(Student::new)
+                    .collect(Collectors.toList());
+        }else {
+            this.students = null;
+        }
         this.teacher = new Teacher(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();

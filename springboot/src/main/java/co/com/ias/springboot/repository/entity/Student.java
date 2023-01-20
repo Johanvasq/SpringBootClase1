@@ -1,12 +1,18 @@
 package co.com.ias.springboot.repository.entity;
 
 import co.com.ias.springboot.dto.StudentDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Entity
 //@Table(name = "STUDENT")
 public class Student implements Serializable {
@@ -16,7 +22,9 @@ public class Student implements Serializable {
     @Column(name = "LAST_NAME", nullable = false) private String lastName;
     @Column(name = "BIRTH_DATE", nullable = false) private LocalDate birthDate;
     @Column(name = "AGE", nullable = false) private Integer age;
-    @ManyToOne() @JoinColumn(name="COURSE_ID", nullable=false) private Course course;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name="COURSE_ID", nullable=false) private Course course;
 
 
     public Student() {
@@ -36,7 +44,11 @@ public class Student implements Serializable {
         this.name = studentDTO.getName();
         this.lastName = studentDTO.getLastName();
         this.birthDate = studentDTO.getBirthDate();
-        this.course = new Course(studentDTO.getCourse());
+        if (studentDTO.getCourse() != null){
+            this.course = new Course(studentDTO.getCourse());
+        }else {
+            this.course = null;
+        }
     }
 
     public Integer getIdentification() {

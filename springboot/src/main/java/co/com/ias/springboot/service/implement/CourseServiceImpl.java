@@ -6,6 +6,7 @@ import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.service.ICourseService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +21,9 @@ public class CourseServiceImpl implements ICourseService {
     }
     @Override
     public void save(CourseDTO courseDTO) {
-        if(!repository.existsById(courseDTO.getId())){
-            repository.save(new Course(courseDTO));
+        Optional<Course> course = Optional.ofNullable(repository.findByIssue(courseDTO.getIssue()));
+        if(course.isEmpty()){
+            Course c = repository.save(new Course(courseDTO));
         }
     }
 

@@ -21,7 +21,6 @@ public class TeacherServiceImpl implements ITeacherService {
 
     @Override
     public void save(TeacherDTO teacherDTO) {
-        System.out.println("guardando");
         if (!repository.existsById(teacherDTO.getIdentification())) {
             repository.save(new Teacher(teacherDTO));
         }

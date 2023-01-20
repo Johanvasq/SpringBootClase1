@@ -2,7 +2,9 @@ package co.com.ias.springboot.dto;
 
 import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.repository.entity.Teacher;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,7 @@ public class TeacherDTO {
     private String name;
     private String lastName;
     private Integer age;
+
     private List<CourseDTO> courses;
 
     public TeacherDTO(Integer identification, String name, String lastName, Integer age, List<CourseDTO> courses) {
@@ -30,10 +33,14 @@ public class TeacherDTO {
         this.name = teacher.getName();
         this.lastName = teacher.getLastName();
         this.age = teacher.getAge();
-        this.courses = teacher.getCourses()
-                .stream()
-                .map(CourseDTO::new)
-                .collect(Collectors.toList());
+        if (teacher.getCourses() != null){
+            this.courses = teacher.getCourses()
+                    .stream()
+                    .map(CourseDTO::new)
+                    .collect(Collectors.toList());
+        }else {
+            this.courses = null;
+        }
     }
 
     public Integer getIdentification() {
