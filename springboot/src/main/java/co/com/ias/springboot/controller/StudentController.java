@@ -1,18 +1,18 @@
 package co.com.ias.springboot.controller;
 
-import co.com.ias.springboot.dto.TeacherDTO;
-import co.com.ias.springboot.service.ITeacherService;
+import co.com.ias.springboot.dto.StudentDTO;
+import co.com.ias.springboot.service.IStudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/student")
+public class StudentController {
 
-    private final ITeacherService service;
+    public final IStudentService service;
 
-    public TeacherController(ITeacherService service) {
+    public StudentController(IStudentService service) {
         this.service = service;
     }
 
@@ -31,23 +31,24 @@ public class TeacherController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> save(@RequestBody TeacherDTO teacherDTO){
-        service.save(teacherDTO);
+    public ResponseEntity<?> save(@RequestBody StudentDTO studentDTO){
+        service.save(studentDTO);
         return ResponseEntity
-               .ok()
-               .build();
+                .ok()
+                .body("The student " + studentDTO.getName() + " has been created");
     }
 
     @PutMapping()
-    public ResponseEntity<?> update(@RequestBody TeacherDTO teacherDTO){
-        service.update(teacherDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<?> update(@RequestBody StudentDTO studentDTO){
+        service.update(studentDTO);
+        return new ResponseEntity<>( "The student has been updated",HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         service.delete(id);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted().body("The student " + service.findById(id).getName() + " has been deleted ");
     }
+
 
 }

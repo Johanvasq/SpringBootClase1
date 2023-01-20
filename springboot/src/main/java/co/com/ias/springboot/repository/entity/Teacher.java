@@ -1,20 +1,24 @@
 package co.com.ias.springboot.repository.entity;
 
+import co.com.ias.springboot.dto.CourseDTO;
 import co.com.ias.springboot.dto.TeacherDTO;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
-public class Teacher {
+//@Table(name = "TEACHER")
+public class Teacher implements Serializable {
 
     @Id private Integer identification;
     @Column(name = "FIRST_NAME", nullable = false) private String name;
     @Column(name = "LAST_NAME", nullable = false) private String lastName;
     @Column(name = "AGE") private Integer age;
 
-    @OneToMany(mappedBy = "TEACHER", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> courses;
 
     public Teacher() {
@@ -33,10 +37,15 @@ public class Teacher {
         this.name = teacher.getName();
         this.lastName = teacher.getLastName();
         this.age = teacher.getAge();
-        this.courses = teacher.getCourses()
-                .stream()
-                .map(Course::new)
-                .collect(Collectors.toList());
+        if(teacher.getCourses() != null){
+            this.courses = teacher.getCourses()
+                    .stream()
+                    .map(Course::new)
+                    .collect(Collectors.toList());
+        }else {
+            this.courses = null;
+        }
+
 
     }
 

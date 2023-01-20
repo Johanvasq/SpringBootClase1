@@ -1,18 +1,19 @@
 package co.com.ias.springboot.controller;
 
-import co.com.ias.springboot.dto.TeacherDTO;
-import co.com.ias.springboot.service.ITeacherService;
+import co.com.ias.springboot.dto.CourseDTO;
+import co.com.ias.springboot.dto.StudentDTO;
+import co.com.ias.springboot.service.ICourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController {
+@RequestMapping("/course")
+public class CourseController {
 
-    private final ITeacherService service;
+    public final ICourseService service;
 
-    public TeacherController(ITeacherService service) {
+    public CourseController(ICourseService service) {
         this.service = service;
     }
 
@@ -22,7 +23,6 @@ public class TeacherController {
                 .ok()
                 .body(service.findAll());
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
         return ResponseEntity
@@ -31,16 +31,16 @@ public class TeacherController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> save(@RequestBody TeacherDTO teacherDTO){
-        service.save(teacherDTO);
+    public ResponseEntity<?> save(@RequestBody CourseDTO courseDTO){
+        service.save(courseDTO);
         return ResponseEntity
-               .ok()
-               .build();
+                .ok()
+                .build();
     }
 
     @PutMapping()
-    public ResponseEntity<?> update(@RequestBody TeacherDTO teacherDTO){
-        service.update(teacherDTO);
+    public ResponseEntity<?> update(@RequestBody CourseDTO courseDTO){
+        service.update(courseDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -49,5 +49,4 @@ public class TeacherController {
         service.delete(id);
         return ResponseEntity.accepted().build();
     }
-
 }

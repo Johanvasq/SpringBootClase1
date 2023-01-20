@@ -2,22 +2,22 @@ package co.com.ias.springboot.repository.entity;
 
 import co.com.ias.springboot.dto.StudentDTO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-public class Student {
+//@Table(name = "STUDENT")
+public class Student implements Serializable {
 
     @Id private Integer identification;
     @Column(name = "FIRST_NAME", nullable = false) private String name;
     @Column(name = "LAST_NAME", nullable = false) private String lastName;
     @Column(name = "BIRTH_DATE", nullable = false) private LocalDate birthDate;
     @Column(name = "AGE", nullable = false) private Integer age;
-    @ManyToOne() private Course course;
+    @ManyToOne() @JoinColumn(name="COURSE_ID", nullable=false) private Course course;
+
 
     public Student() {
     }
@@ -36,7 +36,6 @@ public class Student {
         this.name = studentDTO.getName();
         this.lastName = studentDTO.getLastName();
         this.birthDate = studentDTO.getBirthDate();
-        this.age = studentDTO.getAge();
         this.course = new Course(studentDTO.getCourse());
     }
 

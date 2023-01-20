@@ -14,7 +14,18 @@ public class StudentDTO {
     private Integer age;
     private CourseDTO course;
 
+    public StudentDTO() {
 
+    }
+
+    public StudentDTO(Integer identification, String name, String lastName, LocalDate birthDate, Integer age, CourseDTO course) {
+        this.identification = identification;
+        this.name = name;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.age = age;
+        this.course = course;
+    }
 
     public StudentDTO(Student student) {
         this.identification = student.getIdentification();

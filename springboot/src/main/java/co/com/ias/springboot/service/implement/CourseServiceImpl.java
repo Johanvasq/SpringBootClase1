@@ -4,11 +4,13 @@ import co.com.ias.springboot.dto.CourseDTO;
 import co.com.ias.springboot.repository.ICourseRepository;
 import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.service.ICourseService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class CourseServiceImpl implements ICourseService {
 
     private final ICourseRepository repository;
@@ -18,7 +20,7 @@ public class CourseServiceImpl implements ICourseService {
     }
     @Override
     public void save(CourseDTO courseDTO) {
-        if(repository.existsById(courseDTO.getId())){
+        if(!repository.existsById(courseDTO.getId())){
             repository.save(new Course(courseDTO));
         }
     }
@@ -35,10 +37,7 @@ public class CourseServiceImpl implements ICourseService {
     @Override
     public CourseDTO findById(Integer id) {
         Optional<Course> course = repository.findById(id);
-        if (course.isPresent()) {
-            return new CourseDTO(course.get());
-        }
-        return null;
+        return course.map(CourseDTO::new).orElse(null);
     }
 
     @Override

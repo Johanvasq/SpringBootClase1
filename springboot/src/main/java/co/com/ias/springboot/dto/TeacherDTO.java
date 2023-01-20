@@ -14,6 +14,17 @@ public class TeacherDTO {
     private Integer age;
     private List<CourseDTO> courses;
 
+    public TeacherDTO(Integer identification, String name, String lastName, Integer age, List<CourseDTO> courses) {
+        this.identification = identification;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.courses = courses;
+    }
+
+    public TeacherDTO() {
+    }
+
     public TeacherDTO(Teacher teacher) {
         this.identification = teacher.getIdentification();
         this.name = teacher.getName();

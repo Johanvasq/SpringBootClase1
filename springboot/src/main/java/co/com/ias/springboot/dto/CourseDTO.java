@@ -15,6 +15,18 @@ public class CourseDTO {
     private String schedule;
     private String issue;
 
+
+    public CourseDTO() {
+    }
+
+    public CourseDTO(Integer id, List<StudentDTO> students, TeacherDTO teacher, String schedule, String issue) {
+        this.id = id;
+        this.students = students;
+        this.teacher = teacher;
+        this.schedule = schedule;
+        this.issue = issue;
+    }
+
     public CourseDTO(Course course) {
         this.id = course.getId();
         this.students = course.getStudents()

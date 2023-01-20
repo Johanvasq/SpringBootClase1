@@ -3,22 +3,28 @@ package co.com.ias.springboot.repository.entity;
 import co.com.ias.springboot.dto.CourseDTO;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-public class Course {
+//@Table(name = "course")
+public class Course implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToMany(mappedBy = "COURSE", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
     @ManyToOne
-    @JoinColumn(name = "TEACHER_ID")
+    @JoinColumn(name = "TEACHER_IDENTIFICATION", nullable = false)
     private Teacher teacher;
     @Column(name = "SCHEDULE", nullable = false) private String schedule;
     @Column(name = "ISSUE", nullable = false) private String issue;
+
+
+    public Course() {
+    }
 
     public Course(Teacher teacher, String schedule, String issue) {
         this.teacher = teacher;
