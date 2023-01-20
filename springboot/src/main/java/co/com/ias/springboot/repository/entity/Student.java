@@ -19,6 +19,9 @@ public class Student {
     @Column(name = "AGE", nullable = false) private Integer age;
     @ManyToOne() private Course course;
 
+    public Student() {
+    }
+
     public Student(Integer identification, String name, String lastName, LocalDate birthDate, Course course) {
         this.identification = identification;
         this.name = name;
