@@ -43,15 +43,12 @@ public class Teacher implements Serializable {
         this.identification = teacher.getIdentification();
         this.name = teacher.getName();
         this.lastName = teacher.getLastName();
-        this.age = teacher.getAge();
-        if(teacher.getCourses() != null){
-            this.courses = teacher.getCourses()
-                    .stream()
-                    .map(Course::new)
-                    .collect(Collectors.toList());
-        }else {
-            this.courses = null;
-        }
+        this.age = teacher.getAge() != null ? teacher.getAge() : null;
+        this.courses = teacher.getCourses() != null ? teacher.getCourses()
+                .stream()
+                .map(Course::new)
+                .collect(Collectors.toList()) : null;
+
 
 
     }

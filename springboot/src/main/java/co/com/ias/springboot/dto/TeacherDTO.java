@@ -32,15 +32,11 @@ public class TeacherDTO {
         this.identification = teacher.getIdentification();
         this.name = teacher.getName();
         this.lastName = teacher.getLastName();
-        this.age = teacher.getAge();
-        if (teacher.getCourses() != null){
-            this.courses = teacher.getCourses()
-                    .stream()
-                    .map(CourseDTO::new)
-                    .collect(Collectors.toList());
-        }else {
-            this.courses = null;
-        }
+        this.age = teacher.getAge() != null ? teacher.getAge() : null;
+        this.courses = teacher.getCourses() != null ? teacher.getCourses()
+                .stream()
+                .map(CourseDTO::toDTO)
+                .collect(Collectors.toList()) : null;
     }
 
     public Integer getIdentification() {
@@ -81,5 +77,14 @@ public class TeacherDTO {
 
     public void setCourses(List<CourseDTO> courses) {
         this.courses = courses;
+    }
+
+    public static TeacherDTO toDTO(Teacher teacher) {
+        TeacherDTO dto = new TeacherDTO();
+        dto.setIdentification(teacher.getIdentification());
+        dto.setName(teacher.getName());
+        dto.setLastName(teacher.getLastName());
+        dto.setAge(teacher.getAge()!= null? teacher.getAge() : null);
+        return dto;
     }
 }

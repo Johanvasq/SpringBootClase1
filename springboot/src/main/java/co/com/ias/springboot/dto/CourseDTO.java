@@ -33,15 +33,11 @@ public class CourseDTO{
 
     public CourseDTO(Course course) {
         this.id = course.getId();
-        if(course.getStudents() != null) {
-            this.students = course.getStudents()
-                    .stream()
-                    .map(StudentDTO::new)
-                    .collect(Collectors.toList());
-        }else {
-            this.students = null;
-        }
-        this.teacher = new TeacherDTO(course.getTeacher());
+        this.students = course.getStudents() != null ? course.getStudents()
+                .stream()
+                .map(StudentDTO::new)
+                .collect(Collectors.toList()) : null;
+        this.teacher = TeacherDTO.toDTO(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
     }
@@ -89,8 +85,12 @@ public class CourseDTO{
 
     // Convertir a curso
 
-    public CourseDTO toDTO(Course course) {
-
+    public static CourseDTO toDTO(Course course) {
+        CourseDTO dto = new CourseDTO();
+        dto.setId(course.getId());
+        dto.setIssue(course.getIssue());
+        dto.setSchedule(course.getSchedule());
+        return dto;
     }
 
 
