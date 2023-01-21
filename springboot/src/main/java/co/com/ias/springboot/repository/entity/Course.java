@@ -51,10 +51,11 @@ public class Course implements Serializable {
     }
 
     public Course(CourseDTO course) {
-            this.students = course.getStudents() != null ? course.getStudents()
-                    .stream()
-                    .map(Student::new)
-                    .collect(Collectors.toList()) : null;
+        this.id = course.getId() != null ? course.getId() : null;
+        this.students = course.getStudents() != null ? course.getStudents()
+                .stream()
+                .map(Student::new)
+                .collect(Collectors.toList()) : null;
         this.teacher = new Teacher(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();

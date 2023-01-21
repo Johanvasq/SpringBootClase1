@@ -35,11 +35,8 @@ public class StudentDTO {
         this.lastName = student.getLastName();
         this.birthDate = student.getBirthDate();
         this.age = student.getAge();
-        if (student.getCourse() != null){
-            this.course = new CourseDTO(student.getCourse());
-        }else {
-            this.course = null;
-        }
+        this.course = student.getCourse() != null ? CourseDTO.toDTO(student.getCourse()) : null;
+
     }
 
 
@@ -90,5 +87,15 @@ public class StudentDTO {
 
     public void setCourse(CourseDTO course) {
         this.course = course;
+    }
+
+    public static StudentDTO toDTO(Student student) {
+        StudentDTO dto = new StudentDTO();
+        dto.setIdentification(student.getIdentification());
+        dto.setName(student.getName());
+        dto.setLastName(student.getLastName());
+        dto.setBirthDate(student.getBirthDate());
+        dto.setAge(student.getAge());
+        return dto;
     }
 }

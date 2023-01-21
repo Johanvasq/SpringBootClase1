@@ -35,7 +35,7 @@ public class CourseDTO{
         this.id = course.getId();
         this.students = course.getStudents() != null ? course.getStudents()
                 .stream()
-                .map(StudentDTO::new)
+                .map(StudentDTO::toDTO)
                 .collect(Collectors.toList()) : null;
         this.teacher = TeacherDTO.toDTO(course.getTeacher());
         this.schedule = course.getSchedule();

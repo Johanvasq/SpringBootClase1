@@ -44,6 +44,7 @@ public class Student implements Serializable {
         this.name = studentDTO.getName();
         this.lastName = studentDTO.getLastName();
         this.birthDate = studentDTO.getBirthDate();
+        this.age = calculateAge();
         if (studentDTO.getCourse() != null){
             this.course = new Course(studentDTO.getCourse());
         }else {

@@ -37,10 +37,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Override
     public TeacherDTO findById(Integer id) {
         Optional<Teacher> teacher = repository.findById(id);
-        if (teacher.isPresent()) {
-            return new TeacherDTO(teacher.get());
-        }
-        return null;
+        return teacher.map(TeacherDTO::new).orElse(null);
     }
 
     @Override

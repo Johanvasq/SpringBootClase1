@@ -47,7 +47,7 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         service.delete(id);
-        return ResponseEntity.accepted().body("The student " + service.findById(id).getName() + " has been deleted ");
+        return ResponseEntity.accepted().body("The student has been deleted");
     }
 
 
