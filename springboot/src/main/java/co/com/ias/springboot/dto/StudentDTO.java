@@ -1,17 +1,33 @@
 package co.com.ias.springboot.dto;
 
-import co.com.ias.springboot.repository.entity.Course;
+
 import co.com.ias.springboot.repository.entity.Student;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import java.time.LocalDate;
 
 public class StudentDTO {
 
+    @Min(value = 0, message = "Identification of student is required")
     private Integer identification;
+
+    @NotEmpty(message = "Name of student is required")
+    @Pattern(regexp = "[a-zA-Z ]*", message = "Name must contain only letters and spaces")
     private String name;
+
+    @Pattern(regexp = "[a-zA-Z ]*", message = "Last name must contain only letters and spaces")
+    @NotEmpty(message = "Last name of student is required")
     private String lastName;
+
+    @NotEmpty(message = "Birth date of student is required")
+    @Pattern(regexp = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            message = "Invalid date format, valid format is YYYY-MM-DD")
     private LocalDate birthDate;
+
     private Integer age;
 
     private CourseDTO course;
@@ -98,4 +114,13 @@ public class StudentDTO {
         dto.setAge(student.getAge());
         return dto;
     }
+    public static StudentDTO toDTOStudents(Student student) {
+        StudentDTO dto = new StudentDTO();
+        dto.setIdentification(student.getIdentification());
+        dto.setName(student.getName());
+        dto.setLastName(student.getLastName());
+        dto.setBirthDate(student.getBirthDate());
+        return dto;
+    }
+
 }

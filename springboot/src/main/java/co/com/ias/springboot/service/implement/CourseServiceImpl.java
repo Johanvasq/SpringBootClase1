@@ -1,12 +1,11 @@
 package co.com.ias.springboot.service.implement;
 
 import co.com.ias.springboot.dto.CourseDTO;
+import co.com.ias.springboot.dto.StudentDTO;
 import co.com.ias.springboot.repository.ICourseRepository;
 import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.service.ICourseService;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class CourseServiceImpl implements ICourseService {
     public void save(CourseDTO courseDTO) {
         Optional<Course> course = Optional.ofNullable(repository.findByIssue(courseDTO.getIssue()));
         if(course.isEmpty()){
-            Course c = repository.save(new Course(courseDTO));
+            repository.save(new Course(courseDTO));
         }
     }
 
@@ -56,5 +55,14 @@ public class CourseServiceImpl implements ICourseService {
         if (course.isPresent()) {
             repository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<StudentDTO> findStudentsByCursoId(Integer id) {
+        Optional<Course> course = repository.findById(id);
+        return course.map(value -> value.getStudents().stream()
+                .map(StudentDTO::toDTOStudents)
+                .collect(Collectors.toList())).orElse(null);
+
     }
 }

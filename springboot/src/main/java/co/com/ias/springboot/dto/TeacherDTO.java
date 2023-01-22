@@ -4,14 +4,25 @@ import co.com.ias.springboot.repository.entity.Course;
 import co.com.ias.springboot.repository.entity.Teacher;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TeacherDTO {
 
+    @Min(value = 0, message = "Identification is mandatory")
     private Integer identification;
+
+    @Pattern(regexp = "[a-zA-Z ]*", message = "Name must contain only letters and spaces")
+    @NotEmpty(message = "Name is mandatory")
     private String name;
+
+    @Pattern(regexp = "[a-zA-Z ]*", message = "Last name must contain only letters and spaces")
+    @NotEmpty(message = "Last name is mandatory")
     private String lastName;
     private Integer age;
 

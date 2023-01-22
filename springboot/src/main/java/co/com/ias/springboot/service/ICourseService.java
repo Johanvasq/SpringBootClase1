@@ -15,4 +15,6 @@ public interface ICourseService {
     List<CourseDTO> findAll();
 
     void delete(Integer id);
+
+    List<StudentDTO> findStudentsByCursoId(Integer id);
 }
