@@ -28,6 +28,8 @@ public class Teacher implements Serializable {
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
 
+
+
     public Teacher() {
     }
 

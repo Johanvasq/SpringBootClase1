@@ -3,12 +3,14 @@ package co.com.ias.springboot.repository.entity;
 import co.com.ias.springboot.dto.StudentDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -26,6 +28,9 @@ public class Student implements Serializable {
     @JsonBackReference
     @JoinColumn(name="COURSE_ID", nullable=false) private Course course;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "student")
+    private List<Score> scores;
 
     public Student() {
     }
@@ -45,11 +50,11 @@ public class Student implements Serializable {
         this.lastName = studentDTO.getLastName();
         this.birthDate = studentDTO.getBirthDate();
         this.age = calculateAge();
-        if (studentDTO.getCourse() != null){
-            this.course = new Course(studentDTO.getCourse());
-        }else {
-            this.course = null;
-        }
+
+        this.course = studentDTO.getCourse() != null ? new Course(studentDTO.getCourse()) : null;
+
+        this.scores = studentDTO.getScores();
+        this.scores = studentDTO.getScores()!= null? studentDTO.getScores() : null;
     }
 
     public Integer getIdentification() {

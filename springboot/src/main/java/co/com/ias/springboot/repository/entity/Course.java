@@ -34,6 +34,10 @@ public class Course implements Serializable {
     @Column(name = "ISSUE", nullable = false) private String issue;
 
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "course")
+    private List<Score> scores;
+
     public Course() {
     }
 
@@ -59,6 +63,7 @@ public class Course implements Serializable {
         this.teacher = new Teacher(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
+        this.scores = course.getScores()!= null? course.getScores() : null;
 
     }
 
@@ -97,5 +102,13 @@ public class Course implements Serializable {
 
     public void setIssue(String issue) {
         this.issue = issue;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
 }

@@ -1,6 +1,7 @@
 package co.com.ias.springboot.dto;
 
 
+import co.com.ias.springboot.repository.entity.Score;
 import co.com.ias.springboot.repository.entity.Student;
 
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class StudentDTO {
 
@@ -31,6 +33,8 @@ public class StudentDTO {
     private Integer age;
 
     private CourseDTO course;
+
+    private List<Score> scores;
 
     public StudentDTO() {
 
@@ -103,6 +107,14 @@ public class StudentDTO {
 
     public void setCourse(CourseDTO course) {
         this.course = course;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
 
     public static StudentDTO toDTO(Student student) {

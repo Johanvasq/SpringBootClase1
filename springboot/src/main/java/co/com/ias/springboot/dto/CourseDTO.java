@@ -1,11 +1,13 @@
 package co.com.ias.springboot.dto;
 
 import co.com.ias.springboot.repository.entity.Course;
+import co.com.ias.springboot.repository.entity.Score;
 import co.com.ias.springboot.repository.entity.Student;
 import co.com.ias.springboot.repository.entity.Teacher;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -26,6 +28,8 @@ public class CourseDTO{
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Name must not contain special characters")
     @Size(max = 200, message = "Issue field must not exceed 200 characters")
     private String issue;
+
+    private List<Score> scores;
 
 
     public CourseDTO() {
@@ -48,6 +52,7 @@ public class CourseDTO{
         this.teacher = TeacherDTO.toDTO(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
+        this.scores = course.getScores()!= null? course.getScores() : null;
     }
 
     public void setId(Integer id) {
@@ -90,6 +95,13 @@ public class CourseDTO{
         return issue;
     }
 
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
 
     // Convertir a curso
 
