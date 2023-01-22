@@ -1,6 +1,8 @@
 package co.com.ias.springboot.repository.entity;
 
+import co.com.ias.springboot.dto.ScoreDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,26 +13,33 @@ public class Score implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer calificacion;
+    private Integer qualification;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "STUDENT_IDENTIFICATION", nullable = false)
+    @JoinColumn(name = "student",referencedColumnName = "identification", nullable = false)
     private Student student;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="COURSE_ID", nullable=false)
+    @JoinColumn(name="course",referencedColumnName = "id", nullable=false)
     private Course course;
 
     public Score() {
     }
 
-    public Score(Integer id, Integer calificacion, Student student, Course course) {
+    public Score(Integer id, Integer qualification, Student student, Course course) {
         this.id = id;
-        this.calificacion = calificacion;
+        this.qualification = qualification;
         this.student = student;
         this.course = course;
+    }
+
+    public Score(ScoreDTO scoreDTO){
+        this.id = scoreDTO.getId() != null ? scoreDTO.getId() : null;
+        this.qualification = scoreDTO.getQualification();
+        this.student = new Student(scoreDTO.getStudent()) ;
+        this.course = new Course(scoreDTO.getCourse());
     }
 
 
@@ -42,12 +51,12 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Integer getCalificacion() {
-        return calificacion;
+    public Integer getQualification() {
+        return qualification;
     }
 
-    public void setCalificacion(Integer calificacion) {
-        this.calificacion = calificacion;
+    public void setQualification(Integer qualification) {
+        this.qualification = qualification;
     }
 
     public Student getStudent() {

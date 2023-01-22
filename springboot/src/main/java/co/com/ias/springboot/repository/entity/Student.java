@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -28,20 +29,21 @@ public class Student implements Serializable {
     @JsonBackReference
     @JoinColumn(name="COURSE_ID", nullable=false) private Course course;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "student")
+    @JsonManagedReference
     private List<Score> scores;
 
     public Student() {
     }
 
-    public Student(Integer identification, String name, String lastName, LocalDate birthDate, Course course) {
+    public Student(Integer identification, String name, String lastName, LocalDate birthDate, Course course, List<Score> scores) {
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.age = calculateAge();
         this.course = course;
+        this.scores = scores;
     }
 
     public Student(StudentDTO studentDTO) {
@@ -50,11 +52,11 @@ public class Student implements Serializable {
         this.lastName = studentDTO.getLastName();
         this.birthDate = studentDTO.getBirthDate();
         this.age = calculateAge();
-
         this.course = studentDTO.getCourse() != null ? new Course(studentDTO.getCourse()) : null;
-
-        this.scores = studentDTO.getScores();
-        this.scores = studentDTO.getScores()!= null? studentDTO.getScores() : null;
+        this.scores = studentDTO.getScoresDTO()!= null? studentDTO.getScoresDTO()
+                .stream()
+                .map(Score::new)
+                .collect(Collectors.toList()) : null;
     }
 
     public Integer getIdentification() {
@@ -105,5 +107,11 @@ public class Student implements Serializable {
         return Period.between(this.birthDate, LocalDate.now()).getYears();
     }
 
+    public List<Score> getScores() {
+        return scores;
+    }
 
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
 }

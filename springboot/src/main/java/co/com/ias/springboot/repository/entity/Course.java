@@ -35,7 +35,7 @@ public class Course implements Serializable {
 
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Score> scores;
 
     public Course() {
@@ -63,7 +63,10 @@ public class Course implements Serializable {
         this.teacher = new Teacher(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
-        this.scores = course.getScores()!= null? course.getScores() : null;
+        this.scores = course.getScores()!= null? course.getScores()
+                .stream()
+                .map(Score::new)
+                .collect(Collectors.toList()): null;
 
     }
 

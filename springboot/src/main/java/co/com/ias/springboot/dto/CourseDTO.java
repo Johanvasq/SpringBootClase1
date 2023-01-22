@@ -29,7 +29,7 @@ public class CourseDTO{
     @Size(max = 200, message = "Issue field must not exceed 200 characters")
     private String issue;
 
-    private List<Score> scores;
+    private List<ScoreDTO> scoresDto;
 
 
     public CourseDTO() {
@@ -52,7 +52,10 @@ public class CourseDTO{
         this.teacher = TeacherDTO.toDTO(course.getTeacher());
         this.schedule = course.getSchedule();
         this.issue = course.getIssue();
-        this.scores = course.getScores()!= null? course.getScores() : null;
+        this.scoresDto = course.getScores()!= null ? course.getScores()
+                .stream()
+                .map(ScoreDTO::getDTO)
+                .collect(Collectors.toList()): null;
     }
 
     public void setId(Integer id) {
@@ -95,12 +98,12 @@ public class CourseDTO{
         return issue;
     }
 
-    public List<Score> getScores() {
-        return scores;
+    public List<ScoreDTO> getScores() {
+        return scoresDto;
     }
 
-    public void setScores(List<Score> scores) {
-        this.scores = scores;
+    public void setScores(List<ScoreDTO> scoresDto) {
+        this.scoresDto = scoresDto;
     }
 
     // Convertir a curso

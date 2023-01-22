@@ -3,6 +3,7 @@ package co.com.ias.springboot.dto;
 
 import co.com.ias.springboot.repository.entity.Score;
 import co.com.ias.springboot.repository.entity.Student;
+import co.com.ias.springboot.validation.LocalDateFormat;
 
 
 import javax.validation.constraints.Min;
@@ -25,16 +26,16 @@ public class StudentDTO {
     @NotEmpty(message = "Last name of student is required")
     private String lastName;
 
-    @NotEmpty(message = "Birth date of student is required")
-    @Pattern(regexp = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
-            message = "Invalid date format, valid format is YYYY-MM-DD")
+
+
+    @LocalDateFormat
     private LocalDate birthDate;
 
     private Integer age;
 
     private CourseDTO course;
 
-    private List<Score> scores;
+    private List<ScoreDTO> scoresDTO;
 
     public StudentDTO() {
 
@@ -109,12 +110,12 @@ public class StudentDTO {
         this.course = course;
     }
 
-    public List<Score> getScores() {
-        return scores;
+    public List<ScoreDTO> getScoresDTO() {
+        return this.scoresDTO;
     }
 
-    public void setScores(List<Score> scores) {
-        this.scores = scores;
+    public void setScores(List<ScoreDTO> scores) {
+        this.scoresDTO = scores;
     }
 
     public static StudentDTO toDTO(Student student) {
@@ -126,7 +127,7 @@ public class StudentDTO {
         dto.setAge(student.getAge());
         return dto;
     }
-    public static StudentDTO toDTOStudents(Student student) {
+    public static StudentDTO    toDTOStudents(Student student) {
         StudentDTO dto = new StudentDTO();
         dto.setIdentification(student.getIdentification());
         dto.setName(student.getName());
