@@ -3,6 +3,7 @@ package co.com.ias.springboot.service.implement;
 import co.com.ias.springboot.dto.ScoreDTO;
 import co.com.ias.springboot.repository.IScoreRepository;
 import co.com.ias.springboot.repository.entity.Score;
+import co.com.ias.springboot.repository.entity.Student;
 import co.com.ias.springboot.service.IScoreService;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public void save(ScoreDTO scoreDTO) {
-        Optional<Score> score = repository.findById(scoreDTO.getId());
-        if(score.isEmpty()){
-            repository.save(new Score(scoreDTO));
-        }
+        repository.save(new Score(scoreDTO));
     }
 
     @Override

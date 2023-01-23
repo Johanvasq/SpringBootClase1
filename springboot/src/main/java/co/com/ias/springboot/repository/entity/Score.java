@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+    @Entity
 public class Score implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +38,8 @@ public class Score implements Serializable {
     public Score(ScoreDTO scoreDTO){
         this.id = scoreDTO.getId() != null ? scoreDTO.getId() : null;
         this.qualification = scoreDTO.getQualification();
-        this.student = new Student(scoreDTO.getStudent()) ;
-        this.course = new Course(scoreDTO.getCourse());
+        this.student = scoreDTO.getStudent() != null ? new Student(scoreDTO.getStudent()) : null;
+        this.course = scoreDTO.getCourse() != null ? new Course(scoreDTO.getCourse()) : null;
     }
 
 

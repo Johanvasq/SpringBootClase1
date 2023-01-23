@@ -44,7 +44,7 @@ public class CourseDTO{
     }
 
     public CourseDTO(Course course) {
-        this.id = course.getId();
+        this.id = course.getId() != null ? course.getId() : null;
         this.students = course.getStudents() != null ? course.getStudents()
                 .stream()
                 .map(StudentDTO::toDTO)
